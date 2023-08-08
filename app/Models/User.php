@@ -54,4 +54,9 @@ class User extends Authenticatable implements JWTSubject
     {
         return $this->belongsTo(Gender::class,'gender_id');
     }
+
+    public function degrees()
+    {
+        return $this->hasMany(Degree::class,'user_id');
+    }
 }

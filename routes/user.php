@@ -1,7 +1,6 @@
 <?php
 
 use App\Http\Controllers\UserController;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -34,10 +33,13 @@ Route::group(
 
             Route::post('/logout', 'logout'); #logout
             Route::get('/profile', 'profile'); # get account data
+            Route::get('/libraries', 'getBooks'); #books
+            Route::get('/videos', 'getVideos'); #videos
+            Route::get('/quizzes', 'getQuizzes'); #Quizzes
+            Route::get('/quizze/{id}', 'getQuizzeQuestions'); #Quizze Questions
+            Route::post('/quizze-answer/{id}', 'answerQuizze'); #Quizze answer
 
         });
-
-
 
     });
 

@@ -106,4 +106,30 @@ class QuizzeController extends Controller
         }
         return $this->responseMessage(200, true, null, $quizze);
     }
+
+    public function getQuizzeAnswersStudents($id)
+    {
+        $quizze = Quizze::find($id);
+        if (!$quizze)
+            return $this->responseMessage(400, false);
+
+        $quizze->student_count = $quizze->degrees()->count();
+        $total_score = 0;
+        foreach ($quizze->questions as $question) {
+            $total_score += $question->score;
+        }
+        $quizze->quizze_score = $total_score;
+        $students = [];
+        foreach ($quizze->degrees as $degree) {
+            $students[] = [
+                'id' => $degree->student->id,
+                'name' => $degree->student->name,
+                'score' => $degree->score
+            ];
+        }
+        $quizze->students = $students;
+        unset($quizze->degrees);
+        unset($quizze->questions);
+        return $this->responseMessage(200, true, null, $quizze);
+    }
 }

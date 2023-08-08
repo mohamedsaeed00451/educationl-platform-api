@@ -38,7 +38,6 @@ Route::group(
 
     function () {
 
-
         //******************************** Auth ********************************//
         Route::controller(AdminController::class)->group(function () {
 
@@ -55,7 +54,6 @@ Route::group(
 
         });
 
-
         //******************************** Grades  ********************************//
         Route::apiResource('/grades', GradeController::class);
 
@@ -70,18 +68,20 @@ Route::group(
 
         //******************************** Libraries  ********************************//
         Route::apiResource('/libraries', LibraryController::class);
-        //******************************** Update Book  ********************************//
-        Route::post('/update-book/{id}', [LibraryController::class,'updateBook']);
+        Route::post('/update-book/{id}', [LibraryController::class,'updateBook']); #Update Book
 
         //******************************** Videos  ********************************//
         Route::apiResource('/videos', VideoController::class);
-        //******************************** Update Video  ********************************//
-        Route::post('/update-video/{id}', [VideoController::class,'updateVideo']);
+        Route::post('/update-video/{id}', [VideoController::class,'updateVideo']); #Update Video
 
         //******************************** Quizzes  ********************************//
         Route::apiResource('/quizzes', QuizzeController::class);
-        //******************************** Get Quizze Questions  ********************************//
-        Route::get('/quizze-questions/{id}', [QuizzeController::class,'getQuizzeQuestions']);
+        Route::controller(QuizzeController::class)->group(function () {
+
+            Route::get('/quizze-questions/{id}', 'getQuizzeQuestions'); #Get Quizze Questions
+            Route::get('/quizze-students/{id}','getQuizzeAnswersStudents'); #Get Quizze Answers Students
+
+        });
 
         //******************************** Questions  ********************************//
         Route::apiResource('/questions', QuestionController::class);
