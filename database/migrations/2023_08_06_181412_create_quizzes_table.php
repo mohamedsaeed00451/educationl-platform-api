@@ -16,7 +16,6 @@ return new class extends Migration
             $table->string('title');
             $table->foreignId('grade_id')->constrained('grades')->cascadeOnDelete()->cascadeOnUpdate();
             $table->foreignId('class_room_id')->constrained('class_rooms')->cascadeOnDelete()->cascadeOnUpdate();
-            $table->foreignId('section_id')->nullable()->constrained('sections')->cascadeOnDelete()->cascadeOnUpdate();
             $table->timestamps();
         });
     }

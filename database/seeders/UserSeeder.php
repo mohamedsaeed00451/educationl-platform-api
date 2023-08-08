@@ -25,6 +25,7 @@ class UserSeeder extends Seeder
             'name' => 'student',
             'username' => 'student123',
             'password' => Hash::make(12345678),
+            'student_password' => 12345678,
             'student_phone' => '01010101010',
             'father_phone' => '01020202020',
             'address' => 'student address',

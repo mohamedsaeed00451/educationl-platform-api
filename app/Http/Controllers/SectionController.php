@@ -2,11 +2,11 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\QuizzeRequest;
+use App\Http\Requests\SectionRequest;
 use App\Http\Traits\GeneralTrait;
-use App\Models\Quizze;
+use App\Models\Section;
 
-class QuizzeController extends Controller
+class SectionController extends Controller
 {
     use GeneralTrait;
 
@@ -15,8 +15,8 @@ class QuizzeController extends Controller
      */
     public function index()
     {
-        $quizzes = Quizze::with('grade', 'classRoom')->paginate(PAGINATION_NUMBER);
-        return $this->responseMessage(200, true, null, $quizzes);
+        $sections = Section::all();
+        return $this->responseMessage(200, true, null, $sections);
     }
 
     /**
@@ -30,15 +30,15 @@ class QuizzeController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(QuizzeRequest $request)
+    public function store(SectionRequest $request)
     {
         try {
-            $quizze = Quizze::create([
-                'title' => $request->title,
-                'grade_id' => $request->grade_id,
-                'class_room_id' => $request->class_room_id,
+            $section = Section::create([
+                'section' => $request->section,
+                'start_time' => $request->start_time,
+                'end_time' => $request->end_time,
             ]);
-            return $this->responseMessage(201, true, null, $quizze);
+            return $this->responseMessage(201, true, null, $section);
         } catch (\Exception $e) {
             return $this->responseMessage(400, false, 'حدث خطأ ما');
         }
@@ -63,18 +63,18 @@ class QuizzeController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(QuizzeRequest $request,$id)
+    public function update(SectionRequest $request, $id)
     {
         try {
-            $quizze = Quizze::find($id);
-            if (!$quizze)
+            $section = Section::find($id);
+            if (!$section)
                 return $this->responseMessage(400, false);
-            $quizze->update([
-                'title' => $request->title,
-                'grade_id' => $request->grade_id,
-                'class_room_id' => $request->class_room_id,
+            $section->update([
+                'section' => $request->section,
+                'start_time' => $request->start_time,
+                'end_time' => $request->end_time,
             ]);
-            return $this->responseMessage(201, true, null, $quizze);
+            return $this->responseMessage(201, true, null, $section);
         } catch (\Exception $e) {
             return $this->responseMessage(400, false, 'حدث خطأ ما');
         }
@@ -86,24 +86,13 @@ class QuizzeController extends Controller
     public function destroy($id)
     {
         try {
-            $quizze = Quizze::find($id);
-            if (!$quizze)
+            $section = Section::find($id);
+            if (!$section)
                 return $this->responseMessage(400, false);
-            $quizze->delete();
+            $section->delete();
             return $this->responseMessage(200, true, 'تم الحذف بنجاح');
         } catch (\Exception $e) {
             return $this->responseMessage(400, false, 'حدث خطأ ما');
         }
-    }
-
-    public function getQuizzeQuestions($id)
-    {
-        $quizze = Quizze::find($id);
-        if (!$quizze)
-            return $this->responseMessage(400, false);
-        foreach ($quizze->questions as $question) {
-            $question->answers = json_decode($question->answers);
-        }
-        return $this->responseMessage(200, true, null, $quizze);
     }
 }

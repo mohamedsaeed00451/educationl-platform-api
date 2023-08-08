@@ -18,7 +18,11 @@ class User extends Authenticatable implements JWTSubject
         'password',
         'remember_token',
         'created_at',
-        'updated_at'
+        'updated_at',
+        'grade_id',
+        'class_room_id',
+        'section_id',
+        'gender_id'
     ];
 
     public function getJWTIdentifier()
@@ -31,4 +35,23 @@ class User extends Authenticatable implements JWTSubject
         return [];
     }
 
+    public function grade()
+    {
+        return $this->belongsTo(Grade::class,'grade_id');
+    }
+
+    public function classRoom()
+    {
+        return $this->belongsTo(ClassRoom::class,'class_room_id');
+    }
+
+    public function section()
+    {
+        return $this->belongsTo(Section::class,'section_id');
+    }
+
+    public function gender()
+    {
+        return $this->belongsTo(Gender::class,'gender_id');
+    }
 }

@@ -6,20 +6,20 @@ use Illuminate\Support\Facades\Storage;
 
 trait UploadTrait
 {
-    public function deleteImage($folder, $image)
+    public function deleteFile($file)
     {
-        $exists = Storage::disk('uploads')->exists($folder . '/' . $image);
+        $exists = Storage::disk('uploads')->exists($file);
         if ($exists) {
-            Storage::disk('uploads')->delete($folder . '/' . $image);
+            Storage::disk('uploads')->delete($file);
         }
+        return true;
     }
 
-    public function addImage($folder, $image)
+    public function addFile($folder, $file)
     {
-        $path = $image->store($folder, 'uploads');
+        $path = $file->store($folder, 'uploads');
         if ($path) {
-            $image_name = explode('/', $path);
-            return end($image_name);
+            return $path;
         }
         return false;
     }
