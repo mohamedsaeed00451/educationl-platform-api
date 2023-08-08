@@ -9,7 +9,6 @@ use App\Models\Degree;
 use App\Models\Library;
 use App\Models\Quizze;
 use App\Models\Video;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
 class UserController extends Controller
@@ -77,7 +76,7 @@ class UserController extends Controller
         $check_quizze = auth()->user()->degrees()->pluck('quizze_id')->toArray();
         foreach ($quizzes as $quiz) {
             $quiz->isAble = 1;
-            if (in_array($quiz->id,$check_quizze)) {
+            if (in_array($quiz->id, $check_quizze)) {
                 $quiz->isAble = 0;
             }
         }
@@ -125,6 +124,9 @@ class UserController extends Controller
                     }
                 }
             }
+
+            if ($total_score == 0)
+                return $this->responseMessage(400, false,'لا يوجد أساله لهذا الاختبار');
 
             Degree::create([
                 'quizze_id' => $id,
