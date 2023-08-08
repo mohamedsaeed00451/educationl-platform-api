@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\ChangeQuizzeStatusRequest;
 use App\Http\Requests\QuizzeRequest;
 use App\Http\Traits\GeneralTrait;
 use App\Models\Quizze;
@@ -63,7 +64,7 @@ class QuizzeController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(QuizzeRequest $request,$id)
+    public function update(QuizzeRequest $request, $id)
     {
         try {
             $quizze = Quizze::find($id);
@@ -131,5 +132,20 @@ class QuizzeController extends Controller
         unset($quizze->degrees);
         unset($quizze->questions);
         return $this->responseMessage(200, true, null, $quizze);
+    }
+
+    public function changeQuizzeStatus(ChangeQuizzeStatusRequest $request, $id)
+    {
+        try {
+            $quizze = Quizze::find($id);
+            if (!$quizze)
+                return $this->responseMessage(400, false);
+            $quizze->update([
+                'quizze_status' => $request->quizze_status
+            ]);
+            return $this->responseMessage(200, true, 'تم تعديل الحالة بنجاح', ['quizze_status' => $request->quizze_status]);
+        } catch (\Exception $e) {
+            return $this->responseMessage(400, false, 'حدث خطأ ما');
+        }
     }
 }

@@ -80,6 +80,7 @@ Route::group(
 
             Route::get('/quizze-questions/{id}', 'getQuizzeQuestions'); #Get Quizze Questions
             Route::get('/quizze-students/{id}','getQuizzeAnswersStudents'); #Get Quizze Answers Students
+            Route::post('/quizze-status/{id}','changeQuizzeStatus'); #Change Quizze Status
 
         });
 

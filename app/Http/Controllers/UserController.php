@@ -72,6 +72,7 @@ class UserController extends Controller
     {
         $quizzes = Quizze::where('grade_id', auth()->user()->grade_id)
             ->where('class_room_id', auth()->user()->class_room_id)
+            ->where('quizze_status', true)
             ->paginate(PAGINATION_NUMBER);
         $check_quizze = auth()->user()->degrees()->pluck('quizze_id')->toArray();
         foreach ($quizzes as $quiz) {
@@ -87,6 +88,7 @@ class UserController extends Controller
     {
         $quizze = Quizze::where('id', $id)
             ->where('class_room_id', auth()->user()->class_room_id)
+            ->where('quizze_status', true)
             ->where('grade_id', auth()->user()->grade_id)->first();
         if (!$quizze)
             return $this->responseMessage(400, false);
@@ -103,6 +105,7 @@ class UserController extends Controller
             DB::beginTransaction();
             $quizze = Quizze::where('id', $id)
                 ->where('class_room_id', auth()->user()->class_room_id)
+                ->where('quizze_status', true)
                 ->where('grade_id', auth()->user()->grade_id)->first();
 
             if (!$quizze)
@@ -126,7 +129,7 @@ class UserController extends Controller
             }
 
             if ($total_score == 0)
-                return $this->responseMessage(400, false,'لا يوجد أساله لهذا الاختبار');
+                return $this->responseMessage(400, false, 'لا يوجد أساله لهذا الاختبار');
 
             Degree::create([
                 'quizze_id' => $id,
