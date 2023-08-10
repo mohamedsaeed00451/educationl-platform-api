@@ -22,7 +22,7 @@ class UserController extends Controller
         $credentials = $request->only(['username', 'password']);
 
         if (!$token = auth('user')->attempt($credentials)) {
-            return $this->responseMessage(401, false, 'Unauthorized');
+            return $this->responseMessage(401, false, 'اسم المستخدم اول كلمة المرور غير صحيح');
         }
 
         $user = auth('user')->user();

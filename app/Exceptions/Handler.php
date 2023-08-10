@@ -40,7 +40,7 @@ class Handler extends ExceptionHandler
         }
         If ($e instanceof ValidationException) {
 
-            return $this->responseMessage(406,false,'error',['errors' => $e->errors()]);
+            return $this->responseMessage(406,false,$e->errors());
         }
 
         return parent::render($request, $e);

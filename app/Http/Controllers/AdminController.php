@@ -14,7 +14,7 @@ class AdminController extends Controller
         $credentials = $request->only(['email','password']);
 
         if (! $token = auth('admin')->attempt($credentials)) {
-            return $this->responseMessage(401,false,'Unauthorized');
+            return $this->responseMessage(401,false,'البريد الإلكترونى اول كلمة المرور غير صحيح');
         }
 
         $admin = auth('admin')->user();
