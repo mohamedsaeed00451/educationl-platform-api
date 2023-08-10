@@ -21,7 +21,7 @@ class AdminController extends Controller
         $admin->access_token = $token;
         $admin->token_type = 'bearer';
         $admin->expires_in = auth('admin')->factory()->getTTL() * 60; //mention the guard name inside the auth fn
-        return $this->responseMessage(200,true,null,$admin);
+        return $this->responseMessage(200,true,'تم تسجيل الدخول بنجاح',$admin);
 
     }
 

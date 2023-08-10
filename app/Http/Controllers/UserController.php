@@ -29,7 +29,7 @@ class UserController extends Controller
         $user->access_token = $token;
         $user->token_type = 'bearer';
         $user->expires_in = auth('user')->factory()->getTTL() * 60; //mention the guard name inside the auth fn
-        return $this->responseMessage(200, true, null, $user);
+        return $this->responseMessage(200, true, 'تم تسجيل الدخول بنجاح', $user);
 
     }
 
